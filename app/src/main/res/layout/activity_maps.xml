@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     android:background="#ffa500"
     tools:context="to.msn.wings.mapbasic.MapsActivity">
 
@@ -67,4 +69,18 @@
         <!--</TabHost>-->
 
     </fragment>
+
+    <Button
+        android:id="@+id/camera_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="camera button" />
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:scaleType="fitCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
 </LinearLayout>
