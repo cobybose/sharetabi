@@ -12,7 +12,7 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="340dp">
+        android:layout_height="300dp">
 
         <!--<TabHost-->
         <!--android:id="@+id/tabHost"-->
@@ -70,17 +70,25 @@
 
     </fragment>
 
-    <Button
-        android:id="@+id/camera_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="camera button" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        tools:context=".CameraActivity">
 
-    <ImageView
-        android:id="@+id/image_view"
-        android:scaleType="fitCenter"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/camera_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="camera button" />
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
 
 </LinearLayout>
