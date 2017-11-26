@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MapBasic.iml" filepath="$PROJECT_DIR$/MapBasic.iml" />
+      <module fileurl="file://C:\Users\Tomohiro Tengan\AndroidStudioProjects\ShareTabi\MapBasic.iml" filepath="C:\Users\Tomohiro Tengan\AndroidStudioProjects\ShareTabi\MapBasic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ShareTabi.iml" filepath="$PROJECT_DIR$/ShareTabi.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Tomohiro Tengan\AndroidStudioProjects\ShareTabi\app\app.iml" filepath="C:\Users\Tomohiro Tengan\AndroidStudioProjects\ShareTabi\app\app.iml" />
     </modules>
   </component>
 </project>
