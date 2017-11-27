@@ -1,11 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
+
     defaultConfig {
         applicationId "to.msn.wings.mapbasic"
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdkVersion 19
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -19,13 +21,17 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    //位置情報、行動認識など
-    implementation 'com.google.android.gms:play-services-location:11.6.0'
-    //地図表示
-    implementation 'com.google.android.gms:play-services-maps:11.6.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.android.support:support-v13:25.0.1'
+    // マテリアルデザイン用のUIコンポーネントライブラリ
+    compile 'com.android.support:design:25.0.1'
+    // 位置情報、行動履歴など
+    compile 'com.google.android.gms:play-services-location:10.0.1'
+    // 地図の表示
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
+    compile 'com.android.support:support-v4:25.0.1'
+    // RecyclerView
+    compile 'com.android.support:recyclerview-v7:25.0.1'
 }
