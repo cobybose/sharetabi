@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/map_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/map_container2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2"
+        android:orientation="vertical">
+
+        <fragment
+            android:id="@+id/streetviewpanorama"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            class="com.google.android.gms.maps.SupportStreetViewPanoramaFragment" />
+
+        <fragment
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            map:cameraTargetLat="-33.87365"
+            map:cameraTargetLng="151.20689"
+            map:cameraZoom="15" />
+    </LinearLayout>
+
+    <!--<TextView-->
+        <!--android:text="@string/sub"-->
+        <!--android:textSize="30sp"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/return_button"-->
+        <!--android:text="@string/return_sub"-->
+        <!--android:textSize="30sp"-->
+        <!--android:layout_margin="20dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+
+
+            <!--&lt;!&ndash; 写真ギャラリーを入れるコンテナ &ndash;&gt;-->
+            <!--<FrameLayout-->
+                <!--android:id="@+id/GalleryContainer"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="180dp"-->
+                <!--android:layout_below="@+id/MapContainer" />-->
+
+            <!-- 撮影ボタン -->
+            <!--<Button-->
+            <!--android:id="@+id/CameraButton"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="64dp"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_margin="16dp"-->
+            <!--android:elevation="4dp"-->
+            <!--android:gravity="center"-->
+            <!--android:paddingEnd="48dp"-->
+            <!--android:paddingStart="48dp"-->
+            <!--android:text="@string/button_capture"-->
+            <!--android:textAppearance="?android:attr/textAppearanceLarge" />-->
+
+
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center"-->
+                <!--android:weightSum="3">-->
+                <!--<Button-->
+                    <!--android:id="@+id/return_button"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:text="ホーム"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:layout_weight="1"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/CameraButton"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:text="撮影する"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:layout_weight="1"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/btn3"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:text="タイムラプス"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:layout_weight="1"/>-->
+            <!--</LinearLayout>-->
+
+</LinearLayout>
