@@ -15,49 +15,62 @@ package com.example.android.sample.myplaceapp;
  * limitations under the License.
  */
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
+import com.google.android.gms.maps.StreetViewPanorama.OnStreetViewPanoramaCameraChangeListener;
 import com.google.android.gms.maps.StreetViewPanorama.OnStreetViewPanoramaChangeListener;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.StreetViewPanorama.OnStreetViewPanoramaClickListener;
+import com.google.android.gms.maps.StreetViewPanorama.OnStreetViewPanoramaLongClickListener;
 import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
+import com.google.android.gms.maps.model.StreetViewPanoramaOrientation;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 /**
- * This shows how to create a simple activity with streetview and a map
+ * This shows how to listen to some {@link StreetViewPanorama} events.
  */
 public class SubActivity extends AppCompatActivity
-        implements OnMarkerDragListener, OnStreetViewPanoramaChangeListener {
-
-    private static final String MARKER_POSITION_KEY = "MarkerPosition";
+        implements OnStreetViewPanoramaChangeListener, OnStreetViewPanoramaCameraChangeListener,
+        OnStreetViewPanoramaClickListener, OnStreetViewPanoramaLongClickListener {
 
     // George St, Sydney
     private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
 
     private StreetViewPanorama mStreetViewPanorama;
 
-    private Marker mMarker;
+    private TextView mPanoChangeTimesTextView;
+
+    private TextView mPanoCameraChangeTextView;
+
+    private TextView mPanoClickTextView;
+
+    private TextView mPanoLongClickTextView;
+
+    private int mPanoChangeTimes = 0;
+
+    private int mPanoCameraChangeTimes = 0;
+
+    private int mPanoClickTimes = 0;
+
+    private int mPanoLongClickTimes = 0;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
-        final LatLng markerPosition;
-        if (savedInstanceState == null) {
-            markerPosition = SYDNEY;
-        } else {
-            markerPosition = savedInstanceState.getParcelable(MARKER_POSITION_KEY);
-        }
+        mPanoChangeTimesTextView = (TextView) findViewById(R.id.change_pano);
+        mPanoCameraChangeTextView = (TextView) findViewById(R.id.change_camera);
+        mPanoClickTextView = (TextView) findViewById(R.id.click_pano);
+        mPanoLongClickTextView = (TextView) findViewById(R.id.long_click_pano);
 
         SupportStreetViewPanoramaFragment streetViewPanoramaFragment =
                 (SupportStreetViewPanoramaFragment)
@@ -69,52 +82,66 @@ public class SubActivity extends AppCompatActivity
                         mStreetViewPanorama = panorama;
                         mStreetViewPanorama.setOnStreetViewPanoramaChangeListener(
                                 SubActivity.this);
-                        // Only need to set the position once as the streetview fragment will maintain
-                        // its state.
+                        mStreetViewPanorama.setOnStreetViewPanoramaCameraChangeListener(
+                                SubActivity.this);
+                        mStreetViewPanorama.setOnStreetViewPanoramaClickListener(
+                                SubActivity.this);
+                        mStreetViewPanorama.setOnStreetViewPanoramaLongClickListener(
+                                SubActivity.this);
+
+                        // Only set the panorama to SYDNEY on startup (when no panoramas have been
+                        // loaded which is when the savedInstanceState is null).
                         if (savedInstanceState == null) {
                             mStreetViewPanorama.setPosition(SYDNEY);
                         }
                     }
                 });
 
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(new OnMapReadyCallback() {
+        //戻るボタン
+        Button returnButton = (Button) findViewById(R.id.return_button);
+        returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onMapReady(GoogleMap map) {
-                map.setOnMarkerDragListener(SubActivity.this);
-                // Creates a draggable marker. Long press to drag.
-                mMarker = map.addMarker(new MarkerOptions()
-                        .position(markerPosition)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.pegman))
-                        .draggable(true));
+            public void onClick(View v) {
+                finish();
             }
         });
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(MARKER_POSITION_KEY, mMarker.getPosition());
-    }
-
-    @Override
     public void onStreetViewPanoramaChange(StreetViewPanoramaLocation location) {
         if (location != null) {
-            mMarker.setPosition(location.position);
+            mPanoChangeTimesTextView.setText("Times panorama changed=" + ++mPanoChangeTimes);
         }
     }
 
     @Override
-    public void onMarkerDragStart(Marker marker) {
+    public void onStreetViewPanoramaCameraChange(StreetViewPanoramaCamera camera) {
+        mPanoCameraChangeTextView.setText("Times camera changed=" + ++mPanoCameraChangeTimes);
     }
 
     @Override
-    public void onMarkerDragEnd(Marker marker) {
-        mStreetViewPanorama.setPosition(marker.getPosition(), 150);
+    public void onStreetViewPanoramaClick(StreetViewPanoramaOrientation orientation) {
+        Point point = mStreetViewPanorama.orientationToPoint(orientation);
+        if (point != null) {
+            mPanoClickTimes++;
+            mPanoClickTextView.setText(
+                    "Times clicked=" + mPanoClickTimes + " : " + point.toString());
+            mStreetViewPanorama.animateTo(
+                    new StreetViewPanoramaCamera.Builder()
+                            .orientation(orientation)
+                            .zoom(mStreetViewPanorama.getPanoramaCamera().zoom)
+                            .build(), 1000);
+        }
     }
 
     @Override
-    public void onMarkerDrag(Marker marker) {
+    public void onStreetViewPanoramaLongClick(StreetViewPanoramaOrientation orientation) {
+        Point point = mStreetViewPanorama.orientationToPoint(orientation);
+        if (point != null) {
+            mPanoLongClickTimes++;
+            mPanoLongClickTextView.setText(
+                    "Times long clicked=" + mPanoLongClickTimes + " : " + point.toString());
+        }
     }
+
 }
