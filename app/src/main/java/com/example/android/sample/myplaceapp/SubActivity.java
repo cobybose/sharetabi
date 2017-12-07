@@ -15,6 +15,7 @@ package com.example.android.sample.myplaceapp;
  * limitations under the License.
  */
 
+import com.example.android.sample.myplaceapp.location.Place;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.StreetViewPanorama.OnStreetViewPanoramaCameraChangeListener;
@@ -27,9 +28,15 @@ import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
 import com.google.android.gms.maps.model.StreetViewPanoramaOrientation;
 
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,6 +47,9 @@ import android.widget.TextView;
 public class SubActivity extends AppCompatActivity
         implements OnStreetViewPanoramaChangeListener, OnStreetViewPanoramaCameraChangeListener,
         OnStreetViewPanoramaClickListener, OnStreetViewPanoramaLongClickListener {
+
+    // 本日の日付文字列
+    String date = String.format(Place.DATE_STR_FORMAT, System.currentTimeMillis());
 
     // George St, Sydney
     private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
@@ -61,6 +71,9 @@ public class SubActivity extends AppCompatActivity
     private int mPanoClickTimes = 0;
 
     private int mPanoLongClickTimes = 0;
+
+    // ナビゲーションドロワーのトグル
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -97,6 +110,23 @@ public class SubActivity extends AppCompatActivity
                     }
                 });
 
+        // NavigationDrawerの設定を行う
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.DrawerLayout);
+        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                R.string.app_name, R.string.app_name);
+        // ドロワーのトグルを有効にする
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.addDrawerListener(mDrawerToggle);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.Toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+
         //戻るボタン
         Button returnButton = (Button) findViewById(R.id.return_button);
         returnButton.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +136,38 @@ public class SubActivity extends AppCompatActivity
             }
         });
     }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // ドロワーのトグルの状態を同期する
+        if (mDrawerToggle != null) {
+            mDrawerToggle.syncState();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (mDrawerToggle != null) {
+            mDrawerToggle.onConfigurationChanged(newConfig);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    // ドロワーからある日付が選ばれた
+//    @Override
+//    public void onDateSelected(String date) {
+//
+//    }
 
     @Override
     public void onStreetViewPanoramaChange(StreetViewPanoramaLocation location) {

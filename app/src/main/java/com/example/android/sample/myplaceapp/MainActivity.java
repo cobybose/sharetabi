@@ -130,16 +130,10 @@ public class MainActivity extends AppCompatActivity
             // 遷移先のActivityを指定して、Intentを作成する
             Intent intent = new Intent( MainActivity.this, SubActivity.class );
 
+
             // 遷移先のアクティビティを起動させる
             startActivity( intent );
         }
     }
-
-//    //リストの項目が長押しされた場合の処理
-//    public boolean Picture_onClick(View view) {
-//        // ここに処理を記述します。
-//        new Message("@string/message");
-//        return true;
-//    }
 
 }

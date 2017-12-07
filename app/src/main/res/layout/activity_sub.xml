@@ -1,87 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ツールバー -->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/Toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorPrimary">
 
+        <!-- 位置情報の記録を開始するスイッチ -->
         <fragment
-            android:id="@+id/streetviewpanorama"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            class="com.google.android.gms.maps.SupportStreetViewPanoramaFragment" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/SwitchFragment"
+            android:name="com.example.android.sample.myplaceapp.location.LoggingSwitchFragment"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical">
+            android:layout_gravity="center_vertical"
+            tools:layout="@layout/fragment_logging_switch" />
 
-            <TextView
-                android:id="@+id/change_pano"
-                android:text="@string/navigate_to_another_panorama"
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/DrawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Toolbar">
+
+        <RelativeLayout
+            android:id="@+id/MainContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <fragment
+                android:id="@+id/streetviewpanorama"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                class="com.google.android.gms.maps.SupportStreetViewPanoramaFragment" />
 
-            <TextView
-                android:id="@+id/change_camera"
-                android:text="@string/pan_camera"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/click_pano"
-                android:text="@string/tap_screen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/change_pano"
+                    android:text="@string/navigate_to_another_panorama"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/long_click_pano"
-                android:text="@string/long_press_screen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/change_camera"
+                    android:text="@string/pan_camera"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
+                <TextView
+                    android:id="@+id/click_pano"
+                    android:text="@string/tap_screen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-
-    <!--<TextView-->
-        <!--android:text="@string/sub"-->
-        <!--android:textSize="30sp"-->
-        <!--android:layout_margin="10dp"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/return_button"-->
-        <!--android:text="@string/return_sub"-->
-        <!--android:textSize="30sp"-->
-        <!--android:layout_margin="20dp"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
-
-
-            <!--&lt;!&ndash; 写真ギャラリーを入れるコンテナ &ndash;&gt;-->
-            <!--<FrameLayout-->
-                <!--android:id="@+id/GalleryContainer"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="180dp"-->
-                <!--android:layout_below="@+id/MapContainer" />-->
-
-            <!-- 撮影ボタン -->
-            <!--<Button-->
-            <!--android:id="@+id/CameraButton"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="64dp"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_margin="16dp"-->
-            <!--android:elevation="4dp"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingEnd="48dp"-->
-            <!--android:paddingStart="48dp"-->
-            <!--android:text="@string/button_capture"-->
-            <!--android:textAppearance="?android:attr/textAppearanceLarge" />-->
-
-
+                <TextView
+                    android:id="@+id/long_click_pano"
+                    android:text="@string/long_press_screen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -112,4 +100,24 @@
                     android:layout_weight="1"/>
             </LinearLayout>
 
-</FrameLayout>
+        </RelativeLayout>
+
+        <!-- ドロワー -->
+        <FrameLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/white">
+
+            <!-- 記録をつけた日を一覧表示するフラグメント -->
+            <fragment
+                android:id="@+id/LoggedDate"
+                android:name="com.example.android.sample.myplaceapp.location.LoggedDateFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_gallery" />
+        </FrameLayout>
+
+    </android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>
