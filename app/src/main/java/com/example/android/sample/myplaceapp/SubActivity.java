@@ -15,6 +15,9 @@ package com.example.android.sample.myplaceapp;
  * limitations under the License.
  */
 
+import com.example.android.sample.myplaceapp.location.LoggedDateFragment;
+import com.example.android.sample.myplaceapp.location.LoggedMapFragment;
+import com.example.android.sample.myplaceapp.location.StreetViewPanoramaFragment;
 import com.example.android.sample.myplaceapp.location.Place;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
@@ -46,13 +49,19 @@ import android.widget.TextView;
  */
 public class SubActivity extends AppCompatActivity
         implements OnStreetViewPanoramaChangeListener, OnStreetViewPanoramaCameraChangeListener,
-        OnStreetViewPanoramaClickListener, OnStreetViewPanoramaLongClickListener {
+        OnStreetViewPanoramaClickListener, OnStreetViewPanoramaLongClickListener, LoggedDateFragment.LoggedDateFragmentListener {
 
     // 本日の日付文字列
     String date = String.format(Place.DATE_STR_FORMAT, System.currentTimeMillis());
 
+    // 地図フラグメントを生成する
+    StreetViewPanoramaFragment panoramaFragment = StreetViewPanoramaFragment.newInstance(date);
+
+
     // George St, Sydney
     private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
+
+    private static LatLng NAHA = new LatLng (26.212313, 127.679153);
 
     private StreetViewPanorama mStreetViewPanorama;
 
@@ -164,10 +173,20 @@ public class SubActivity extends AppCompatActivity
     }
 
     // ドロワーからある日付が選ばれた
-//    @Override
-//    public void onDateSelected(String date) {
-//
-//    }
+    @Override
+    public void onDateSelected(String date) {
+        // パノラマに反映する
+        StreetViewPanoramaFragment PanoramaFragment = (StreetViewPanoramaFragment)getFragmentManager()
+                .findFragmentById(R.id.streetviewpanorama);
+//        mStreetViewPanorama.setPosition(NAHA);
+        PanoramaFragment.setDate(date);
+
+//        // 地図に反映する
+//        LoggedMapFragment mapFragment = (LoggedMapFragment)getFragmentManager()
+//                .findFragmentById(R.id.streetviewpanorama);
+//        mapFragment.setDate(date);
+
+    }
 
     @Override
     public void onStreetViewPanoramaChange(StreetViewPanoramaLocation location) {
