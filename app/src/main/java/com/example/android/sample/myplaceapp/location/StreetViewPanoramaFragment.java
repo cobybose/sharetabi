@@ -97,8 +97,7 @@ public class StreetViewPanoramaFragment extends MapFragment implements OnStreetV
             mCursor = data;
             // コンテントプロバイダに変更が加えられた場合に再検索するためのオブザーバを登録する
             mCursor.registerContentObserver(mObserver);
-            // 地図のカメラを操作する
-            handleCamera(mCursor);
+
         }
 
         @Override
@@ -142,33 +141,28 @@ public class StreetViewPanoramaFragment extends MapFragment implements OnStreetV
 
         } else {
             // 複数地点の場合
-            // 複数地点を結ぶ領域を作成するBuilder
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-            // 各地点をBuilderに含めていく
             for(Place place : places) {
                 LatLng point = new LatLng(place.getLatitude(), place.getLongitude());
-                builder.include(point);
             }
         }
 
-        // 地図上にプロットする
         showPanorama(places);
 
     }
 
-    // 地図上に地点をプロットする
     private void showPanorama(List<Place> places) {
 
         int size = places.size();
         for(int i = 0; i < size; i++) {
             Place place = places.get(i);
 
-            // 線分表示オプションに地点を含める
             LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
 
-            // マーカー追加
-            mStreetViewPanorama.setPosition(latLng);
+            // パノラマ追加
+            if (i == size - 1) {
+                mStreetViewPanorama.setPosition(latLng);
+            }
         }
     }
 
